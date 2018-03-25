@@ -21,13 +21,12 @@ import java.util.Date;
  * @note		See Coding Rule 48 for more info on the encapsulation of class invariants.
  */
 public class File {
-
+	
     /**********************************************************
-     * Constructors
+     * Constructors (part 2 - the expansion)
      **********************************************************/
-
     /**
-     * Initialize a new file with given name, size and writability.
+     * Initialize a new file with given name, size and writability and a type.
      *
      * @param  	name
      *         	The name of the new file.
@@ -35,6 +34,8 @@ public class File {
      *         	The size of the new file.
      * @param  	writable
      *         	The writability of the new file.
+     * @param	type
+     * 			The type of the new file.
      * @effect  The name of the file is set to the given name.
      * 			If the given name is not valid, a default name is set.
      *          | setName(name)
@@ -49,11 +50,19 @@ public class File {
      * @post    The new file has no time of last modification.
      *          | new.getModificationTime() == null
      */
-	public File(String name, int size, boolean writable) {
+	public File(String name, int size, boolean writable, Type type) {
         setName(name);
         setSize(size);
         setWritable(writable);
+        setType(type);
     }
+	
+	
+
+    /**********************************************************
+     * Constructors (part 1 - the original) (to be deleted)
+     **********************************************************/
+
 
     /**
      * Initialize a new file with given name.
@@ -68,7 +77,11 @@ public class File {
         this(name,0,true);
     }
     
+    /**********************************************************
+     * type - defensive programming
+     **********************************************************/    
     
+    public 
     
     /**********************************************************
      * name - total programming
