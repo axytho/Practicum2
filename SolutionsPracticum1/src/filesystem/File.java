@@ -81,7 +81,31 @@ public class File {
      * type - defensive programming
      **********************************************************/    
     
-    public 
+    /**
+     * The type of the file
+     */
+    private Type type;
+    
+    /**
+     * Return the type of the file
+     */
+    
+    @Raw @Basic public Type getType() {
+    	return this.type;
+    }
+    
+    /**
+     * Set the type of the file to the given type
+     * 
+     * @param	type
+     *  		The new type
+     *  @post	The given type is registered as the new type
+     *  		new.getType() == type
+     */
+    
+    @Raw @Model public void setType(Type type)	{
+    	this.type = type;
+    }
     
     /**********************************************************
      * name - total programming
