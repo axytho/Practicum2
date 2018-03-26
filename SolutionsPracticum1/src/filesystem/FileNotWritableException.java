@@ -17,28 +17,28 @@ public class FileNotWritableException extends RuntimeException {
 	/**
 	 * Variable referencing the file to which change was denied.
 	 */
-	private final File file;
+	private final FileObject file;
 
 	/**
 	 * Initialize this new file not writable exception involving the
 	 * given file.
 	 * 
-	 * @param	file
+	 * @param	fileObject
 	 * 			The file for the new file not writable exception.
 	 * @post	The file involved in the new file not writable exception
 	 * 			is set to the given file.
 	 * 			| new.getFile() == file
 	 */
 	@Raw
-	public FileNotWritableException(File file) {
-		this.file = file;
+	public FileNotWritableException(FileObject fileObject) {
+		this.file = fileObject;
 	}
 	
 	/**
 	 * Return the file involved in this file not writable exception.
 	 */
 	@Raw @Basic
-	public File getFile() {
+	public FileObject getFile() {
 		return file;
 	}
 	
