@@ -1,6 +1,6 @@
 package filesystem;
 
-public class Directory extends File {
+public class Directory extends FileObject {
 	
 	
 
