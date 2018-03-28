@@ -37,18 +37,69 @@ public class File extends FileObject {
      * @effect  The new file is initialized as a FileObject with the given name
      * 			size and writability.
      * 			| super(name, size, writability)
-     * @effect	The type of the new file is set to the give type
+     * @effect	The type of the new file is set to the given type
      * 			| setType(type)
-     * @effect	The directory of the file is set to the root
-     * 			| setDirectory(Directory.getRoot())
-     * @post    
+
      */
+	
 	public File(String name, int size, boolean writable, Type type) {
 		super(name, size, writable);
         setType(type);
-        setDirectory(Directory.getRoot());
-    }
+        makeRoot();
+		
+	}
 	
+	/**
+	 * 	Initialize a new empty, writable file with a given name and type in the root folder
+	 * 
+	 * @param	name
+	 * 			The name of the new file.
+	 * @param	type
+	 * 			The type of the new file.
+	 * @effect	a new empty, writable file with a given name and type in the root folder is initialized
+	 */
+	public File(String name, Type type) {
+		this(name, 0, true, type);
+	}
+	
+	/**
+	 * Initialize a new file with given name, size and writability and a type which sits in root.
+     * @param  	name
+     *         	The name of the new file.
+     * @param  	size
+     *         	The size of the new file.
+     * @param  	writable
+     *         	The writability of the new file.
+     * @param	type
+     * 			The type of the new file.
+     * @param	dir
+     * 			The directory in which the file resides.
+     * @effect	a new file with given name, size and writability and a type which sits in root is initialized
+     * 
+     * @effect	The directory of the file is set to the given directory
+     * 			| setDirectory(dir)
+	 */
+
+	public File(Directory dir, String name, int size, boolean writable, Type type) {
+		this(name, size, writable, type);
+        /* change setDirectory to makeRoot for all functions */
+        setDirectory(dir);
+    }
+	/**
+	 * Initializes a new file with a given directory, name and type which is writable and empty.
+	 * 
+     * @param	dir
+     * 			The directory in which the file resides.
+     * @param  	name
+     *         	The name of the new file.
+     * @param	type
+     * 			The type of the new file.
+     * @effect	A new file with a given directory, name and type which is writable and empty is initialized
+	 */
+	
+	public File(Directory dir, String name, Type type)	{
+		this(dir, name, 0, true, type);
+	}
 	
 	
 

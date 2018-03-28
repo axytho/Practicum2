@@ -132,6 +132,16 @@ public class FileObject {
     	return root;
     }
     
+    /**
+     * Make this FileObject a root FileObject
+     * 
+     * @effect	The directory of the FileObject is now the root
+     * 			| setDirectory(Directory.getRoot())
+     */
+    public void makeRoot() {
+    	setDirectory(Directory.getRoot());
+    }
+    
     
     
     /**********************************************************
