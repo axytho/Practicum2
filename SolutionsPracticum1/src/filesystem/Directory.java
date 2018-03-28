@@ -132,6 +132,16 @@ public void move(Directory dir, File file) {
 public File getRoot(File file) {
 	return 
 }
+	/**
+	 * Checks if the given directory is a valid directory
+	 * @param 	directory
+	 * @return	
+	 */
+
+	public static boolean isValidDirectory(Directory directory) {
+		return true;
+		/* TODO: Change this! */
+	}
 	
 
 }

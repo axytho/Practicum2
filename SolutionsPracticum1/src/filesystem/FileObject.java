@@ -20,7 +20,7 @@ import java.util.Date;
  * 
  * @note		See Coding Rule 48 for more info on the encapsulation of class invariants.
  */
-public class FileObject {
+public abstract class FileObject {
 
     /**********************************************************
      * Constructors
@@ -49,12 +49,12 @@ public class FileObject {
      * @post    The new file has no time of last modification.
      *          | new.getModificationTime() == null
      */
-	public FileObject(String name, int size, boolean writable) {
+	protected FileObject(String name, int size, boolean writable) {
         setName(name);
         setSize(size);
         setWritable(writable);
     }
-
+	
     /**
      * Initialize a new file with given name.
      *
@@ -66,6 +66,69 @@ public class FileObject {
      */
     public FileObject(String name) {
         this(name,0,true);
+    }
+
+    /**********************************************************
+     * dir - defensive programming
+     **********************************************************/    
+    
+    /**
+     * The directory to which the file or directory belongs
+     */
+    private Directory directory = null;
+    
+    /**
+     * Set the name of this directory to a given directory
+     * 
+     * @param	dir
+     * 			The directory to which the new directory is set.
+     * @post	Sets the new directory to the given directory
+     * 			| new.getDirectory() = dir
+     * @throws	IllegalArgumentException
+     * 			This Directory is not a valid directory
+     * 			| ! isValidDirectory(dir)
+     */
+    @Raw
+    public void setDirectory(Directory dir) throws IllegalArgumentException	{
+    	if (!Directory.isValidDirectory(dir)) {
+    		throw new IllegalArgumentException("Invalid Directory!");
+    	} else {	
+    		directory = dir;   
+    	}
+    }	
+    
+    /**
+     * Returns the directory
+     */
+    @Basic @Raw
+    public Directory getDirectory()	{
+    	return directory;
+    }
+    
+//    /**
+//     * Change the directory of a file to a new directory
+//     * 
+//     * @param	dir
+//     * 			The directory to which the new directory is set.
+//     * @effect	Sets the directory to the given directory
+//     * 			| new.getDirectory() = dir 
+//     * @throws	IllegalArgumentException
+//     * 			If the 
+//     */
+    
+    /**
+     * The root directory
+     */
+    
+    private static final Directory root = new Directory("root");
+    
+    /**
+     * Return the root folder
+     */
+    
+    @Basic @Immutable
+    public static Directory getRoot() {
+    	return root;
     }
     
     
@@ -283,7 +346,7 @@ public class FileObject {
         }
     }
 
-    
+
 
     /**********************************************************
      * creationTime
