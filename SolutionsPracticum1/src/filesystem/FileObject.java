@@ -20,7 +20,8 @@ import java.util.Date;
  * 
  * @note		See Coding Rule 48 for more info on the encapsulation of class invariants.
  */
-public abstract class FileObject {
+/* not abstract for now because our file test relies on this */
+public class FileObject {
 
     /**********************************************************
      * Constructors

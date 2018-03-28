@@ -1,8 +1,6 @@
 package filesystem;
 import be.kuleuven.cs.som.annotate.*;
 
-import java.util.Date;
-
 /**
  * A class of files.
  *
@@ -74,6 +72,18 @@ public class File extends FileObject {
     }
     
     /**
+     * Checks whether the type of the file is valid
+     * 
+     * @param	type
+     * 			The type of the file
+     * @return	True if and only if the type is not null
+     * 			| (type != null)
+     */
+    public static boolean isValidType(Type type) {
+    	return (type != null);
+    }
+    
+    /**
      * Set the type of the file to the given type
      * 
      * @param	type
@@ -86,7 +96,7 @@ public class File extends FileObject {
      */
     
     @Raw @Model public void setType(Type type)	{
-    	if (!isValidType())	{
+    	if (!isValidType(type))	{
     		throw new IllegalArgumentException("Not a valid type of file!");
     	} else {
     	this.type = type;
