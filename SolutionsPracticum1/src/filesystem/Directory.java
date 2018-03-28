@@ -24,10 +24,10 @@ public class Directory extends FileObject {
  */
 	/**
 	 * Initialize a new directory with given name and writability.
-	 * @param name
-	 * 		  The  name of the new directory.			
-	 * @param writable
-	 * 		  The writability of the new directory.
+	 * @param 	name
+	 * 		  	The  name of the new directory.			
+	 * @param 	writable
+	 * 		  	The writability of the new directory.
      * @effect  The name of the directory is set to the given name.
      * 			If the given name is not valid, a default name is set.
      *          | setName(name)
@@ -44,13 +44,13 @@ public class Directory extends FileObject {
 	
 	/**
 	 * Initialize a new directory with given name.
-	 * @param name
-	 * 		  The name of the new directory. 
-	 * @effect The name of the directory is set to the given name.
-	 * 		   If the given name is not valid, a default name is set. 
-	 * 		   | setName(name)
-	 * @effect the new directory has a size of 0 and is writable. 
-	 * 		   | super(name,0,writable);
+	 * @param 	name
+	 * 		  	The name of the new directory. 
+	 * @effect 	The name of the directory is set to the given name.
+	 * 		   	If the given name is not valid, a default name is set. 
+	 * 		   	| setName(name)
+	 * @effect 	the new directory has a size of 0 and is writable. 
+	 * 		   	| super(name,0,writable);
 	 */
 	public Directory(String name) {
 		super(name,0,true);
@@ -58,19 +58,19 @@ public class Directory extends FileObject {
 	}
 	/**
 	 * Initialize a new directory within a given directory, with a name and writability. 
-	 * @param dir
+	 * @param 	dir
 	 * 			The directory where the new directory should be created. 
-	 * @param name
+	 * @param 	name
 	 * 			The name of the new directory. 
-	 * @param writable
+	 * @param 	writable
 	 * 			The writability of the new directory.
-	 * @effect a new directory is created within the directory dir. 
-	 * @effect The name of the directory is set to the given name.
-	 * 		   If the given name is not valid, a default name is set. 
-	 * 		   | setName(name)
-	 * @effect The writability is set to the given flag
+	 * @effect	a new directory is created within the directory dir. 
+	 * @effect 	The name of the directory is set to the given name.
+	 * 		   	If the given name is not valid, a default name is set. 
+	 * 		   	| setName(name)
+	 * @effect 	The writability is set to the given flag
      * 			| setWritable(writable)
-     * @effect The size is set to the default value 0. 
+     * @effect 	The size is set to the default value 0. 
      * 			| super(name,0,writable)
 	 */
 	public Directory(Directory dir,String name, boolean writable) {
@@ -81,15 +81,15 @@ public class Directory extends FileObject {
 	
 	/**
 	 * Initialize a new directory within a given directory, with a name and writability.
-	 * @param dir
+	 * @param 	dir
 	 * 			The directory where the new directory should be created. 
-	 * @param name
+	 * @param 	name
 	 * 			The name of the new directory.
-	 * @effect a new directory is created within the directory dir. 
-	 * @effect The name of the directory is set to the given name.
-	 * 		   If the given name is not valid, a default name is set. 
-	 * 		   | setName(name)
-     * @effect The size is set to the default value 0 and the directory is writable. 
+	 * @effect 	a new directory is created within the directory dir. 
+	 * @effect 	The name of the directory is set to the given name.
+	 * 		   	If the given name is not valid, a default name is set. 
+	 * 		   	| setName(name)
+     * @effect 	The size is set to the default value 0 and the directory is writable. 
      * 			| super(name,0,writable)
 	 */
 	public Directory(Directory dir, String name){
@@ -125,7 +125,7 @@ public void move(Directory dir, File file) {
 
 /**
  * 
- * @param file
+ * @param 	file
  * 			The file from witch the root should be returned. 
  * @return
  */
