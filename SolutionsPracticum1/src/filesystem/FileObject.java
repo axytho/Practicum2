@@ -106,16 +106,26 @@ public class FileObject {
     	return directory;
     }
     
-//    /**
-//     * Change the directory of a file to a new directory
-//     * 
-//     * @param	dir
-//     * 			The directory to which the new directory is set.
-//     * @effect	Sets the directory to the given directory
-//     * 			| new.getDirectory() = dir 
-//     * @throws	IllegalArgumentException
-//     * 			If the 
-//     */
+    /**
+     * Change the directory of a file to a new directory
+     * 
+     * @param	dir
+     * 			The directory to which the new directory is set.
+     * @effect	Move the directory to the given directory
+     * 			| setDirectory(dir)
+     * @effect	The other function
+     * 
+     * @throws	IllegalArgumentException
+     * 			If the directory to which it is moved is not valid
+     */
+    public void move(Directory dir)	{
+    	if (true) {
+    		setDirectory(dir);
+    		/* and update the previous master directory */
+    	} else {
+    		/* throw an error for any problems which are not already thrown when calling the other functions */
+    	}
+    }
     
     /**
      * The root directory
