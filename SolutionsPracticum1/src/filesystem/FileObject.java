@@ -152,6 +152,21 @@ public class FileObject {
     	setDirectory(Directory.getRoot());
     }
     
+
+    /**********************************************************
+     * deletion - defensive programming
+     **********************************************************/    
+    
+    /**
+     * Checks if a fileObject can be deleted. If it's a file, do nothing, if directory, check if empty.
+     * @param object
+     * @return
+     */
+    
+    public static boolean canBeDeleted(FileObject object)	{
+    	
+    }
+    
     
     
     /**********************************************************

@@ -114,11 +114,11 @@ public class Directory extends FileObject {
 	   /**
      * A list of FileObjects, can be Directory or File.
      */
-    ArrayList<FileObject> arraylist = new ArrayList<FileObject>();
+    ArrayList<FileObject> fileList = new ArrayList<FileObject>();
     
     
     /**
-     * Add a FileObject to the arraylist. when the FileObject alreadt exist in the arraylist an exception is thrown. 
+     * Add a FileObject to the arraylist. when the FileObject already exists in the arraylist an exception is thrown. 
      * @param FileObject
      * 					The FileObject that should be added. 
      * @effect The FileObject is added in the arraylist.
@@ -132,8 +132,8 @@ public class Directory extends FileObject {
     	if (!FileObjectAlreadyInList(FileObject)) {
     		throw new AlreadyInListException(FileObject);
     	}else {
-    		arraylist.add(FileObject);
-    		Collections.sort(arraylist);
+    		fileList.add(FileObject);
+    		Collections.sort(fileList);
     		}
     	
     }
@@ -141,21 +141,19 @@ public class Directory extends FileObject {
     
     /** 
      * checks if a FileObject already exist in the arraylist. 
-     * @param FileObject
-     * 		A File or Directory that is searched for in the arraylist.
-     * @return
-     * 		true when the FileObject is in the arraylist, false otherwhise. 
-     * 		| arraylist.contains(FileObject) == true
+     * @param 	FileObject
+     * 			A File or Directory that is searched for in the arraylist.
+     * 
+     * @return	true when the FileObject is in the arraylist, false otherwise. 
+     * 			| arraylist.contains(FileObject)
      */
-    public boolean FileObjectAlreadyInList(FileObject FileObject) {
-    		if (arraylist.contains(FileObject) == true) {
-    			return true;
-    		}else {
-    			return false; 
-    		}
+    public boolean FileObjectAlreadyInList(FileObject FileObject) { /* Gebruik has as item! */
+    	return fileList.contains(FileObject);
     }
     
-    public static Comparator<FileObject> StuNameComparator = new Comparator<FileObject>() {
+    /* @Frederick the arraylist moet gebruikt worden!!!*/
+    
+//    public static Comparator<FileObject> StuNameComparator = new Comparator<FileObject>;
 
     	
     	/**
@@ -165,9 +163,9 @@ public class Directory extends FileObject {
 	   String FileObjectName1 = FO1.getName().toUpperCase();
 	   String FileObjectName2 = FO2.getName().toUpperCase();
 
-	   return StudentName1.compareTo(StudentName2);
+	   return FileObjectName1.compareTo(FileObjectName2);
 	   
-    };
+    }
 	
 	/**
 	 * Returns the FileObject linked to a given index. 
@@ -180,17 +178,20 @@ public class Directory extends FileObject {
 	public FileObject getItemAt(int index) {
 		
 	}
+	
+	
+	
 		
 
-	 /**
-	  * @param dir
-	  * @param file
-	  */
-	public void move(Directory dir, File file) {
-		
-	 }
+//	 /**
+//	  * @param dir
+//	  * @param file
+//	  */
+//	public void move(Directory dir, File file) {
+//		
+//	 }
 	
-}
+
 	/**
 	 * Checks if the given directory is a valid directory
 	 * @param 	directory
@@ -202,5 +203,6 @@ public class Directory extends FileObject {
 		/* TODO: Change this! */
 	}
 	
+
 
 }
