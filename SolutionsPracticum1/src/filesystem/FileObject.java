@@ -163,9 +163,11 @@ public abstract class FileObject {
      * 			
      * @return	True if 
      */
-    /* TODO: change this */
+
     
-    abstract boolean canBeDeleted(FileObject object);
+    public static boolean canBeDeleted(FileObject object) {
+    	return true;
+    }
     
     
     

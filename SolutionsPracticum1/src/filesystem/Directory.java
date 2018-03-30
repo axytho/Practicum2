@@ -151,9 +151,6 @@ public class Directory extends FileObject {
     	return fileList.contains(FileObject);
     }
     
-    /* @Frederick the arraylist moet gebruikt worden!!!*/
-    
-//    public static Comparator<FileObject> StuNameComparator = new Comparator<FileObject>;
 
     	
     	/**
@@ -205,15 +202,6 @@ public class Directory extends FileObject {
 	}
 	
 	
-		
-
-//	 /**
-//	  * @param dir
-//	  * @param file
-//	  */
-//	public void move(Directory dir, File file) {
-//		
-//	 }
 	
 
 	/**

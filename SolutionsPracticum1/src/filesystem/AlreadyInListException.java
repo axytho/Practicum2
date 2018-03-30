@@ -4,7 +4,8 @@ import be.kuleuven.cs.som.annotate.*;
 /**
  * A class for signaling illegal attempts to add FileObjects to an arraylist.
  * 
- * @author 	Tommy Messelis
+ * @author 	Frederik
+ * @author	Jonas 
  * @version	2.0 - 2015
  */
 

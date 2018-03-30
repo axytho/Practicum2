@@ -113,8 +113,8 @@ public class File extends FileObject {
 	 * 			The directory we're checking
 	 * @return	True
 	 */
-	
-	public static boolean canBeDeleted(File file)	{
+    /* TODO:abstract or static? */	
+	public static boolean canBeDeleted(FileObject file)	{
 		return true;
 	}
     
