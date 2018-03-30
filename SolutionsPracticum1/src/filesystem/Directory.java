@@ -119,13 +119,13 @@ public class Directory extends FileObject {
     
     /**
      * Add a FileObject to the arraylist. when the FileObject already exists in the arraylist an exception is thrown. 
-     * @param FileObject
-     * 					The FileObject that should be added. 
-     * @effect The FileObject is added in the arraylist.
-     * 		| arraylist.add(FileObject)
-     * @throws AlreadyInListException
+     * @param 	FileObject
+     * 			The FileObject that should be added. 
+     * @effect	The FileObject is added in the arraylist.
+     * 			| arraylist.add(FileObject)
+     * @throws 	AlreadyInListException
      * 			The FileObject already exist in the arraylist
-     * 		| !FileObjectAlreadyInList(FileObject))
+     * 			| !FileObjectAlreadyInList(FileObject))
      * 			
      */
     public void addToList(FileObject FileObject) throws AlreadyInListException {
