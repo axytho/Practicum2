@@ -103,7 +103,20 @@ public class File extends FileObject {
 	
 	
 
-
+    /**********************************************************
+     * deletion - defensive programming
+     **********************************************************/  
+	
+	/**
+	 * Check if the file can be deleted
+	 * @param 	file
+	 * 			The directory we're checking
+	 * @return	True
+	 */
+	
+	public static boolean canBeDeleted(File file)	{
+		return true;
+	}
     
     /**********************************************************
      * type - defensive programming

@@ -21,7 +21,7 @@ import java.util.Date;
  * @note		See Coding Rule 48 for more info on the encapsulation of class invariants.
  */
 /* not abstract for now because our file test relies on this */
-public class FileObject {
+public abstract class FileObject {
 
     /**********************************************************
      * Constructors
@@ -65,7 +65,7 @@ public class FileObject {
      * 			and true writability
      *         | this(name,0,true)
      */
-    public FileObject(String name) {
+    protected FileObject(String name) {
         this(name,0,true);
     }
 
@@ -159,13 +159,13 @@ public class FileObject {
     
     /**
      * Checks if a fileObject can be deleted. If it's a file, do nothing, if directory, check if empty.
-     * @param object
-     * @return
+     * @param	object
+     * 			
+     * @return	True if 
      */
+    /* TODO: change this */
     
-    public static boolean canBeDeleted(FileObject object)	{
-    	
-    }
+    abstract boolean canBeDeleted(FileObject object);
     
     
     

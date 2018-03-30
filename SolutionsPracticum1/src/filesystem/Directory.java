@@ -179,6 +179,30 @@ public class Directory extends FileObject {
 		
 	}
 	
+    /**********************************************************
+     * deletion - defensive programming
+     **********************************************************/  
+	
+	/**
+	 * Check if the directory can be deleted
+	 * @param 	dir
+	 * 			The directory we're checking
+	 * @return	True if and only if the directory is empty
+	 * 			| isEmpty(dir)
+	 */
+	
+	public static boolean canBeDeleted(Directory dir)	{
+		return dir.isEmpty();
+	}
+	
+	/**
+	 * Check if the directory is empty
+	 * @return	True if and only if the fileList is empty
+	 * 			| fileList.isEmpty()
+	 */
+	public boolean isEmpty() {
+		return fileList.isEmpty();
+	}
 	
 	
 		
