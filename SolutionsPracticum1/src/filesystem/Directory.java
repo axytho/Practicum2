@@ -176,6 +176,23 @@ public class Directory extends FileObject {
 		
 	}
 	
+	
+	
+    /**
+     * Checks whether this directory can be moved to the given directory
+     * 
+     * @param	dir
+     * 			the directory to where we are moving
+     * @return	True if the directory does not contain itself
+     * 			| (!dir.exists(dir))
+     */
+	
+	public boolean canMoveDirectoryTo(Directory dir)	{
+		/* change to exists */
+		// return this.exists(dir);
+		return true;
+	}
+	
     /**********************************************************
      * deletion - defensive programming
      **********************************************************/  

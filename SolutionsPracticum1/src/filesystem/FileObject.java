@@ -118,14 +118,28 @@ public abstract class FileObject {
      * @throws	IllegalArgumentException
      * 			If the directory to which it is moved is not valid
      */
-    public void move(Directory dir)	{
-    	if (true) {
+    public void move(Directory dir) throws IllegalArgumentException	{
+    	if (this.canMoveDirectoryTo(dir)) {
     		setDirectory(dir);
+    		dir.addToList(this);
     		/* and update the previous master directory */
     	} else {
+    		throw new IllegalArgumentException("Cannot move directory to here!");
     		/* throw an error for any problems which are not already thrown when calling the other functions */
     	}
     }
+    
+    /**
+     * Checks wether the file object can be moved to the directory
+     * @param	dir
+     * @return	True if the fileObject is a file and this method is not overwritten
+     */
+    
+    public boolean canMoveDirectoryTo(Directory dir)	{
+    	return true;
+    }
+    
+    
     
     /**
      * The root directory
