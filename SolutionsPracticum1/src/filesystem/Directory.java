@@ -180,9 +180,6 @@ public class Directory extends FileObject {
     	return fileList.contains(FileObject);
     }
     
-    /* @Frederick the arraylist moet gebruikt worden!!!*/
-    
-//    public static Comparator<FileObject> StuNameComparator = new Comparator<FileObject>;
 
     
 	
@@ -196,6 +193,23 @@ public class Directory extends FileObject {
 	 */
 	public FileObject getItemAt(int index) {
 		
+	}
+	
+	
+	
+    /**
+     * Checks whether this directory can be moved to the given directory
+     * 
+     * @param	dir
+     * 			the directory to where we are moving
+     * @return	True if the directory does not contain itself
+     * 			| (!dir.exists(dir))
+     */
+	
+	public boolean canMoveDirectoryTo(Directory dir)	{
+		/* change to exists */
+		// return this.exists(dir);
+		return true;
 	}
 	
     /**********************************************************
@@ -224,15 +238,6 @@ public class Directory extends FileObject {
 	}
 	
 	
-		
-
-//	 /**
-//	  * @param dir
-//	  * @param file
-//	  */
-//	public void move(Directory dir, File file) {
-//		
-//	 }
 	
 
 	/**

@@ -57,6 +57,7 @@ public class File extends FileObject {
 	 * @param	type
 	 * 			The type of the new file.
 	 * @effect	a new empty, writable file with a given name and type in the root folder is initialized
+	 * 			| this(name, 0, true, type)
 	 */
 	public File(String name, Type type) {
 		this(name, 0, true, type);
@@ -75,7 +76,7 @@ public class File extends FileObject {
      * @param	dir
      * 			The directory in which the file resides.
      * @effect	a new file with given name, size and writability and a type which sits in root is initialized
-     * 
+     * 			| this(name, size, writable, type)
      * @effect	The directory of the file is set to the given directory
      * 			| setDirectory(dir)
 	 */
@@ -95,6 +96,7 @@ public class File extends FileObject {
      * @param	type
      * 			The type of the new file.
      * @effect	A new file with a given directory, name and type which is writable and empty is initialized
+     * 			| this(dir, name, 0, true, type)
 	 */
 	
 	public File(Directory dir, String name, Type type)	{
@@ -113,8 +115,8 @@ public class File extends FileObject {
 	 * 			The directory we're checking
 	 * @return	True
 	 */
-	
-	public static boolean canBeDeleted(File file)	{
+    /* TODO:abstract or static? */	
+	public static boolean canBeDeleted(FileObject file)	{
 		return true;
 	}
     
