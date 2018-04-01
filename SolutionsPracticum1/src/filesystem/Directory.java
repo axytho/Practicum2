@@ -133,11 +133,40 @@ public class Directory extends FileObject {
     		throw new AlreadyInListException(FileObject);
     	}else {
     		fileList.add(FileObject);
-    		Collections.sort(fileList);
+    		/* sort moet nog gebeuren.  */
     		}
     	
     }
     
+    private void sortList() {
+    		
+    }
+    
+    /**
+     * Inserts a FileObject in this directory.
+     * 
+     * @param	FO		
+     *			The fileobject 
+     * @effect	The fileobject is added to the arraylist and the directory is set to this directory. 
+     */
+    protected void insert(FileObject FO) {
+    		this.addToList(FO);
+    		FO.setDirectory(this);
+    }
+    
+    
+    /**
+     * Returns the number of items in the directory. 
+     * @return
+     */
+    public int getNbItems() {
+    		return fileList.size();
+    }
+    
+    
+    public int getIndexOf(FileObject FO) {
+    	
+    }
     
     /** 
      * checks if a FileObject already exist in the arraylist. 
@@ -155,17 +184,7 @@ public class Directory extends FileObject {
     
 //    public static Comparator<FileObject> StuNameComparator = new Comparator<FileObject>;
 
-    	
-    	/**
-    	 * 
-    	 */
-	public int compare(FileObject FO1, FileObject FO2) {
-	   String FileObjectName1 = FO1.getName().toUpperCase();
-	   String FileObjectName2 = FO2.getName().toUpperCase();
-
-	   return FileObjectName1.compareTo(FileObjectName2);
-	   
-    }
+    
 	
 	/**
 	 * Returns the FileObject linked to a given index. 
