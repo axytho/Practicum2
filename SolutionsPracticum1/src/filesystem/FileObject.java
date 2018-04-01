@@ -135,9 +135,7 @@ public abstract class FileObject {
      * @return	True if the fileObject is a file and this method is not overwritten
      */
     
-    public boolean canMoveDirectoryTo(Directory dir)	{
-    	return true;
-    }
+    abstract boolean canMoveDirectoryTo(Directory dir);
     
     
     
@@ -173,16 +171,10 @@ public abstract class FileObject {
     
     /**
      * Checks if a fileObject can be deleted. If it's a file, do nothing, if directory, check if empty.
-     * @param	object
-     * 			
-     * @return	True if 
      */
 
     
-    public static boolean canBeDeleted(FileObject object) {
-    	return true;
-    }
-    
+    abstract boolean canBeDeleted();
     
     
     /**********************************************************

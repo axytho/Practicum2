@@ -205,8 +205,8 @@ public class Directory extends FileObject {
 	 * 			| isEmpty(dir)
 	 */
 	
-	public static boolean canBeDeleted(Directory dir)	{
-		return dir.isEmpty();
+	public boolean canBeDeleted()	{
+		return this.isEmpty();
 	}
 	
 	/**

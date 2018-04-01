@@ -116,7 +116,7 @@ public class File extends FileObject {
 	 * @return	True
 	 */
     /* TODO:abstract or static? */	
-	public static boolean canBeDeleted(FileObject file)	{
+	public boolean canBeDeleted()	{
 		return true;
 	}
     
@@ -168,6 +168,23 @@ public class File extends FileObject {
     	this.type = type;
     	}
     }
+    
+    /**********************************************************
+     * Moving - defensive programming
+     **********************************************************/  
+    
+    /**
+     * Check whether we can move a file to a certain directory
+     * 
+     * @param	The directory to which we are moving the file
+     * 
+     * @return	True
+     */
+    
+    
+	public boolean canMoveDirectoryTo(Directory dir)	{
+		return true;
+	}
 
     
     
