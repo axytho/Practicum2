@@ -129,16 +129,83 @@ public class Directory extends FileObject {
      * 			
      */
     public void addToList(FileObject FileObject) throws AlreadyInListException {
-    	if (!FileObjectAlreadyInList(FileObject)) {
-    		throw new AlreadyInListException(FileObject);
-    	}else {
-    		fileList.add(FileObject);
-    		Collections.sort(fileList);
+    		if (!FileObjectAlreadyInList(FileObject)) {
+    			throw new AlreadyInListException(FileObject);
+    		}else {
+    			fileList.add(getPlace(FileObject.getName()),FileObject);
+    			/* getPlace function makes sure the object is aded at the right place */
     		}
     	
     }
     
+    /**
+     * returns the name of the object at index i 
+     * @param	i 
+     * 			The index that indicates wich elements name from the arraylist should be returned. 
+     * @return	The name of the object at index i.			
+     */
+    private String objectName(int i) {
+    		return fileList.get(i).getName(); 
+    }
     
+    
+    /**
+     * Determines the place where a new object should be aded in the arraylist. 
+     * @param name
+     * @return
+     * @throws	IllegalArgumentException	
+     * 			A new object with a name that is identical with the name of an object from the arraylist 
+     * 			cannot be aded. To determine if two names are the same we convert them both to lowercase. 
+     * 			| newName.compareTo(objectName(i).toLowerCase()) == 0
+     * 			
+     */
+    private int getPlace(String name) throws IllegalArgumentException{
+    		String newName = name.toLowerCase(); 
+    		int count = 0; 
+    		for (int i = 0; i < fileList.size(); i++) {
+    			count = count + 1;  /*  The way physicist handle there problems */ 
+    			if (newName.compareTo(objectName(i).toLowerCase()) == 0) {
+    				throw new IllegalArgumentException("Identical name");
+    			}
+    			if (newName.compareTo(objectName(i).toLowerCase()) < 0) {
+    				break;
+    			}
+    		}
+    		return count; 
+    }
+
+    /**
+     * Inserts a FileObject in this directory.
+     * 
+     * @param	FO		
+     *			The fileobject 
+     * @effect	The fileobject is added to the arraylist and the directory is set to this directory. 
+     */
+    protected void insert(FileObject FO) {
+    		this.addToList(FO);
+    		FO.setDirectory(this);
+    }
+    
+    
+    /**
+     * Returns the number of items in the directory. 
+     * @return
+     */
+    public int getNbItems() {
+    		return fileList.size();
+    }
+    
+    /**
+     * returns the index of a FileObject. 
+     * @param	FO
+     * 			The FiloObject 
+     * @return	The index of the Fo 
+     */
+    public int getIndexOf(FileObject FO) {
+    		return fileList.indexOf(FO); 
+    }
+    
+  
     /** 
      * checks if a FileObject already exist in the arraylist. 
      * @param 	FileObject
@@ -148,32 +215,27 @@ public class Directory extends FileObject {
      * 			| arraylist.contains(FileObject)
      */
     public boolean FileObjectAlreadyInList(FileObject FileObject) { /* Gebruik has as item! */
-    	return fileList.contains(FileObject);
+    		return fileList.contains(FileObject);
     }
     
+    
 
-    	
-    	/**
-    	 * 
-    	 */
-	public int compare(FileObject FO1, FileObject FO2) {
-	   String FileObjectName1 = FO1.getName().toUpperCase();
-	   String FileObjectName2 = FO2.getName().toUpperCase();
-
-	   return FileObjectName1.compareTo(FileObjectName2);
-	   
-    }
+    
 	
 	/**
 	 * Returns the FileObject linked to a given index. 
-	 * @param index
+	 * @param	index
 	 * 			The index number. 
-	 * @post
-	 * @return
-	 * 			The file or directory linked to the given index. 
+	 * @post		The index must be valid.
+	 * 			|  index >= 0 && index <= fileList.size())
+	 * @return	he file or directory linked to the given index. 
 	 */
-	public FileObject getItemAt(int index) {
-		
+	public FileObject getItemAt(int index) throws IllegalArgumentException {
+		if (index >= 0 && index <= fileList.size()) {
+			return fileList.get(index);
+			}else {
+				throw new IllegalArgumentException("Index out of range.");
+			}
 	}
 	
 	
