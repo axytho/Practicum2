@@ -1,10 +1,6 @@
 package filesystem;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
 
 
 
@@ -31,18 +27,11 @@ public class Directory extends FileObject {
 	 * 		  	The  name of the new directory.			
 	 * @param 	writable
 	 * 		  	The writability of the new directory.
-     * @effect  The name of the directory is set to the given name.
-     * 			If the given name is not valid, a default name is set.
-     *          | setName(name)
-     * @effect	The writability is set to the given flag
-     * 			| setWritable(writable)
-     * @effect	The new directory has a size of 0. 
-     * 			| super(name,0,writable);
-     * 		
+     * @effect  The new directory is initialized as a root directory with a given name and writability.
+     * 			| this(getRoot(), name, writable);
 	 */
 	public Directory(String name,boolean writable) {
-		super(name,0,writable);
-		makeRoot();
+		this(getRoot(), name, writable);
 	}
 	
 	
@@ -50,15 +39,12 @@ public class Directory extends FileObject {
 	 * Initialize a new directory with given name.
 	 * @param 	name
 	 * 		  	The name of the new directory. 
-	 * @effect 	The name of the directory is set to the given name.
-	 * 		   	If the given name is not valid, a default name is set. 
-	 * 		   	| setName(name)
-	 * @effect 	the new directory has a size of 0 and is writable. 
-	 * 		   	| super(name,0,true);
+     * @effect  The new directory is initialized as a root directory with a given name and is writable
+     * 			| this(getRoot(), name, writable);
 	 */
-	public Directory(String name) {
-		this(name,true);
-		makeRoot();
+	public Directory(String name) {		
+		this(getRoot(), name, true);
+		
 	}
 	/**
 	 * Initialize a new directory within a given directory, with a name and writability. 
@@ -68,18 +54,14 @@ public class Directory extends FileObject {
 	 * 			The name of the new directory. 
 	 * @param 	writable
 	 * 			The writability of the new directory.
-	 * @effect	a new directory is created within the directory dir. 
-	 * @effect 	The name of the directory is set to the given name.
-	 * 		   	If the given name is not valid, a default name is set. 
-	 * 		   	| setName(name)
-	 * @effect 	The writability is set to the given flag
-     * 			| setWritable(writable)
+	 * @effect	This directory is moved to dir.
+	 * 			| this.move(dir)
      * @effect 	The size is set to the default value 0. 
      * 			| super(name,0,writable)
 	 */
 	public Directory(Directory dir ,String name, boolean writable) {
-		this(name,writable);
-		setDirectory(dir); 
+		super(name, 0, writable);
+		move(dir);
 	}
 	
 	
@@ -90,18 +72,12 @@ public class Directory extends FileObject {
 	 * 			The directory where the new directory should be created. 
 	 * @param 	name
 	 * 			The name of the new directory.
-	 * @effect 	a new directory is created within the directory dir. 
-	 * @effect 	The name of the directory is set to the given name.
-	 * 		   	If the given name is not valid, a default name is set. 
-	 * 		   	| setName(name)
-     * @effect 	The size is set to the default value 0 and the directory is writable. 
-     * 			| super(name,0,writable)
+     * @effect  The new directory is initialized as a root directory with a given name and directory.
+     * 			| this(dir, name,true)
 	 */
 	public Directory(Directory dir, String name) {
-		this(name,true);
-		setDirectory(dir);
+		this(dir, name,true);
 	}
-	
 
 	
 
@@ -129,7 +105,7 @@ public class Directory extends FileObject {
      * 			
      */
     public void addToList(FileObject FileObject) throws AlreadyInListException {
-    		if (!FileObjectAlreadyInList(FileObject)) {
+    		if (FileObjectAlreadyInList(FileObject)) {
     			throw new AlreadyInListException(FileObject);
     		}else {
     			fileList.add(getPlace(FileObject.getName()),FileObject);
@@ -137,6 +113,12 @@ public class Directory extends FileObject {
     		}
     	
     }
+    
+    /* TODO: Delete this function!!!!!!!!!! AND CHANGE THE REFERENCE BACK TO addList */
+    public void testAddToList(FileObject FileObject)	{
+    	fileList.add(FileObject);
+    }
+    
     
     /**
      * returns the name of the object at index i 
@@ -174,6 +156,10 @@ public class Directory extends FileObject {
     			}
     		}
     		return count; 
+  
+    		
+    		
+    		
     }
     /** 
      * Perform a binary search on the arrayList
@@ -187,23 +173,24 @@ public class Directory extends FileObject {
      * 
      */
     
-    private int binarySearch(String fileName)	{
-    int x = getNbItems();
-    int position = x - 1; /* start on the last element */
-    int direction = -1;
-    	while (x > 1)	{
-    		x = (x + 1)/ 2; /* since x is an int, only the floor of the quotient is returned */
-    		if (direction < 0)	{
-    			position -= x - 1;
-    		} else {
-    			position += x - 1;
+    public int binarySearch(String fileName)	{
+    	int left = 0;
+    	int right = getNbItems() - 1;
+    	int middle = 0;
+    	int direction = 0;
+    	while (right >= left)	{
+    		middle = (left + right)/2; /*because middle is an int, automatically computes the floor */
+    		direction = fileName.compareTo(objectName(middle)); /* direction is not necessarily equal to -1, 0 or 1 */
+    		if (direction > 0) {
+    			left = middle + 1;
+    		} else if (direction < 0) {
+    			right = middle - 1;
     		}
-    		direction = fileName.compareTo(objectName(x)); /* direction is not necessarily equal to -1, 0 or 1 */
-    		if (direction == 0)	{
-    			return position;
+    		else {
+    			return middle;
     		}
     	}
-    	return position;
+    	return middle;
     }
     
     
@@ -291,7 +278,7 @@ public class Directory extends FileObject {
 	public boolean canMoveDirectoryTo(Directory dir)	{
 		/* change to exists */
 		// return this.exists(dir);
-		return true;
+		return dir != null;
 	}
 	
     /**********************************************************

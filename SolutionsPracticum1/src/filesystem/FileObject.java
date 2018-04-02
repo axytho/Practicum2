@@ -116,16 +116,17 @@ public abstract class FileObject {
      * @effect	The other function
      * 
      * @throws	IllegalArgumentException
-     * 			If the directory to which it is moved is not valid
+     * 			If the directory to which it is moved is not valid or if the directory to which it is moved 
+     * 			does not exist.
      */
     public void move(Directory dir) throws IllegalArgumentException	{
     	if (this.canMoveDirectoryTo(dir)) {
     		setDirectory(dir);
-    		dir.addToList(this);
+    		/* TODO: CHANGE THIS BACK TO addToList!!!!!!!!!!!!!!*/
+    		dir.testAddToList(this);
     		/* and update the previous master directory */
-    	} else {
+    	} else if (dir != null) {
     		throw new IllegalArgumentException("Cannot move directory to here!");
-    		/* throw an error for any problems which are not already thrown when calling the other functions */
     	}
     }
     
@@ -143,7 +144,7 @@ public abstract class FileObject {
      * The root directory
      */
     
-    private static final Directory root = new Directory("root");
+    private static final Directory root = new Directory(null, "root", true);
     
     /**
      * Return the root folder

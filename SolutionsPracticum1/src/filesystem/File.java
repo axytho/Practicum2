@@ -43,9 +43,7 @@ public class File extends FileObject {
      */
 	
 	public File(String name, int size, boolean writable, Type type) {
-		super(name, size, writable);
-        setType(type);
-        makeRoot();
+		this(getRoot(), name, size, writable, type);
 		
 	}
 	
@@ -60,7 +58,7 @@ public class File extends FileObject {
 	 * 			| this(name, 0, true, type)
 	 */
 	public File(String name, Type type) {
-		this(name, 0, true, type);
+		this(getRoot(), name, 0, true, type);
 	}
 	
 	/**
@@ -82,9 +80,9 @@ public class File extends FileObject {
 	 */
 
 	public File(Directory dir, String name, int size, boolean writable, Type type) {
-		this(name, size, writable, type);
-        /* change setDirectory to makeRoot for all functions */
-        setDirectory(dir);
+		super(name, size, writable);
+        setType(type);
+        move(dir);
     }
 	/**
 	 * Initializes a new file with a given directory, name and type which is writable and empty.
