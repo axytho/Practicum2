@@ -133,7 +133,7 @@ public class Directory extends FileObject {
     			throw new AlreadyInListException(FileObject);
     		}else {
     			fileList.add(getPlace(FileObject.getName()),FileObject);
-    			/* getPlace function makes sure the object is aded at the right place */
+    			/* getPlace function makes sure the object is added at the right place */
     		}
     	
     }
@@ -150,9 +150,11 @@ public class Directory extends FileObject {
     
     
     /**
-     * Determines the place where a new object should be aded in the arraylist. 
-     * @param name
-     * @return
+     * Determines the place where a new object should be added in the arraylist. 
+     * @param	name
+     * 
+     * @return	The index of the position where the new object should be added.
+     * 
      * @throws	IllegalArgumentException	
      * 			A new object with a name that is identical with the name of an object from the arraylist 
      * 			cannot be aded. To determine if two names are the same we convert them both to lowercase. 
@@ -163,7 +165,7 @@ public class Directory extends FileObject {
     		String newName = name.toLowerCase(); 
     		int count = 0; 
     		for (int i = 0; i < fileList.size(); i++) {
-    			count = count + 1;  /*  The way physicist handle there problems */ 
+    			count = count + 1;  /*  The way physicists handle these problems */ 
     			if (newName.compareTo(objectName(i).toLowerCase()) == 0) {
     				throw new IllegalArgumentException("Identical name");
     			}
@@ -173,6 +175,43 @@ public class Directory extends FileObject {
     		}
     		return count; 
     }
+    /** 
+     * Perform a binary search on the arrayList
+     * 
+     * @param	fileName
+     * 			The name of the file
+     * 
+     * @return	The index of the file if it contains a file with fileName as name, else the index of the 
+     * 			the file name lexographically higher than this fileName, or, if the fileName is lexographically
+     * 			greater than all other file names, getNbItems()
+     * 
+     */
+    
+    private int binarySearch(String fileName)	{
+    int x = getNbItems();
+    int position = x - 1; /* start on the last element */
+    int direction = -1;
+    	while (x > 1)	{
+    		x = (x + 1)/ 2; /* since x is an int, only the floor of the quotient is returned */
+    		if (direction < 0)	{
+    			position -= x - 1;
+    		} else {
+    			position += x - 1;
+    		}
+    		direction = fileName.compareTo(objectName(x)); /* direction is not necessarily equal to -1, 0 or 1 */
+    		if (direction == 0)	{
+    			return position;
+    		}
+    	}
+    	return position;
+    }
+    
+    
+    
+    
+    
+    
+    
 
     /**
      * Inserts a FileObject in this directory.
@@ -233,8 +272,8 @@ public class Directory extends FileObject {
 	public FileObject getItemAt(int index) throws IllegalArgumentException {
 		if (index >= 0 && index <= fileList.size()) {
 			return fileList.get(index);
-			}else {
-				throw new IllegalArgumentException("Index out of range.");
+		}else {
+			throw new IllegalArgumentException("Index out of range.");
 			}
 	}
 	
