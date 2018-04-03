@@ -66,16 +66,28 @@ public class TestFileSystem {
 		Dir_super.move(Dir_sub1);
 	}
 	
+	@Test
 	public void insert$legalCase() {
-		Dir_super.insert(fileAB);
-		
-		
+		Dir_sub1.insert(fileAB);
+		assertEquals(Dir_sub1.getItemAt(1), fileAB);
 	}
-		
+	
+	@Test (expected = AlreadyInListException.class)
+	public void insert$illegalCase() {
+		DirectoryAlpha.insert(fileAB);
+		fail("expected fail.");
+	}
+	
+	@Test 
+	public void getNbItems$legalCase() {
+		assertEquals(Dir_super.getNbItems(),2);
+		assertEquals(Dir_sub2.getNbItems(),0);
+	}
+	
 
 	
 	
-	@Test
+	
 	public void testAddToList$checkOrder()	{
 		assertEquals(DirectoryAlpha.getItemAt(3).getName(),"fileC");
 	}
@@ -96,4 +108,7 @@ public class TestFileSystem {
 		assertEquals(DirectoryAlpha.binarySearchForAddition("fileIndia"),8);
 		assertEquals(DirectoryAlpha.binarySearchForAddition("fileJulliette"),9);
 	}
+	
+	
+	
 }

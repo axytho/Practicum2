@@ -147,7 +147,7 @@ public class Directory extends FileObject {
     		String newName = name.toLowerCase(); 
     		int count = 0; 
     		for (int i = 0; i < fileList.size(); i++) {
-    			count = count + 1;  /*  The way physicists handle these problems */ 
+    			count = count + 1; 
     			if (newName.compareTo(objectName(i).toLowerCase()) == 0) {
     				throw new IllegalArgumentException("Identical name");
     			}
@@ -354,6 +354,10 @@ public class Directory extends FileObject {
 		/* TODO: Change this! */
 	}
 	
-
+	public static void main(String [ ] args) {
+		Directory test= new Directory("hoi");
+		int i = test.getNbItems(); 
+		System.out.println(i);
+	}
 
 }
