@@ -104,8 +104,8 @@ public class TestFileSystem {
 		assertEquals(DirectoryAlpha.getPlace("file"),-1);
 		assertEquals(DirectoryAlpha.getPlace("fileABBA"), 0);
 		assertEquals(DirectoryAlpha.getPlace("fileE"),4);
-		assertEquals(DirectoryAlpha.getPlace("fileIndia"),8);
-		assertEquals(DirectoryAlpha.getPlace("fileJulliette"),9);
+		assertEquals(DirectoryAlpha.getPlace("fileHotel"),7);
+		assertEquals(DirectoryAlpha.getPlace("fileJulliette"),8);
 	}
 	
 	

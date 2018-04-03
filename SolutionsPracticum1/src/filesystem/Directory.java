@@ -108,16 +108,13 @@ public class Directory extends FileObject {
     		if (FileObjectAlreadyInList(FileObject)) {
     			throw new AlreadyInListException(FileObject);
     		}else {
-    			fileList.add(getPlace(FileObject.getName()),FileObject);
+    			fileList.add(getPlace(FileObject.getName()) + 1,FileObject);
     			/* getPlace function makes sure the object is added at the right place */
     		}
     	
     }
     
-    /* TODO: Delete this function!!!!!!!!!! AND CHANGE THE REFERENCE BACK TO addList */
-    public void testAddToList(FileObject FileObject)	{
-    	fileList.add(FileObject);
-    }
+
     
     
     /**
@@ -138,13 +135,14 @@ public class Directory extends FileObject {
      * 			The name of the file
      * 
      * @return	The index of the file if it contains a file with fileName as name
+     * 			(indexed according to Java, NOT according to practicum2)
      * 
      * @throw	FileNotFoundException
      * 			The file with the given fileName does appear in the fileList
      * 			| for each file in fileList: file.getName() != fileName
      */
     
-    public int binarySearch(String fileName) throws FileNotFoundException	{
+    protected int binarySearch(String fileName) throws FileNotFoundException	{
     	int left = 0;
     	int right = getNbItems() - 1;
     	int middle = 0;
@@ -174,8 +172,9 @@ public class Directory extends FileObject {
      * 
      * @return	The index of the file that comes just before our given file, or -1 if our file must become
      * 			the first file in the index
+     * 			(Indexed according to java)
      */
-    public int getPlace(String fileName) {
+    protected int getPlace(String fileName) throws AlreadyInListException {
     	int left = 0;
     	int right = getNbItems() - 1;
     	int middle = 0;
@@ -189,16 +188,15 @@ public class Directory extends FileObject {
     			right = middle - 1;
     		}
     		else {
-    			return middle;
+    			throw new AlreadyInListException(getItemAt(middle + 1));
     		}
     	}
-    	if (right<0 || left > getNbItems())	{
+    	if (right<0 || left >= getNbItems())	{
     		return right;
     	}
     	assert((fileName.compareTo(objectName(right)) > 0 ) && (fileName.compareTo(objectName(left)) < 0 ));
     	return right;
     }
-    
     
     
     
@@ -254,18 +252,20 @@ public class Directory extends FileObject {
 	/**
 	 * Returns the FileObject linked to a given index. 
 	 * @param	index
-	 * 			The index number. 
-	 * @post		The index must be valid.
+	 * 			The index number according to practicum2. 
+	 * @post	The index must be valid.
 	 * 			|  index >= 0 && index <= fileList.size())
-	 * @return	he file or directory linked to the given index. 
+	 * @return	the file or directory linked to the given index. 
 	 */
 	public FileObject getItemAt(int index) throws IllegalArgumentException {
-		if (index >= 0 && index <= fileList.size()) {
+		index -= 1;
+		if (index >= 0 && index < fileList.size()) {
 			return fileList.get(index);
 		}else {
 			throw new IllegalArgumentException("Index out of range.");
 			}
 	}
+
 	
 	
 	
@@ -280,7 +280,7 @@ public class Directory extends FileObject {
 	
 	public boolean canMoveDirectoryTo(Directory dir)	{
 		/* change to exists */
-		// return this.exists(dir);
+		// TODO: return this.exists(dir);
 		return dir != null;
 	}
 	
@@ -323,10 +323,5 @@ public class Directory extends FileObject {
 		/* TODO: Change this! */
 	}
 	
-	public static void main(String [ ] args) {
-		Directory test= new Directory("hoi");
-		int i = test.getNbItems(); 
-		System.out.println(i);
-	}
 
 }
