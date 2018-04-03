@@ -24,7 +24,7 @@ public class TestFileSystem {
 		fileF = new File(DirectoryAlpha,"fileF", Type.TEXT);
 		fileG = new File(DirectoryAlpha,"fileG", Type.TEXT);
 		fileH = new File(DirectoryAlpha, "fileH", Type.TEXT);
-		fileI = new File(DirectoryAlpha, "fileI	", Type.TEXT);
+		fileI = new File(DirectoryAlpha, "fileI", Type.TEXT);
 		
 	}
 	
@@ -37,6 +37,16 @@ public class TestFileSystem {
 	public void binarySearch$findsCorrectIndexNineEntries() {
 		assertEquals(DirectoryAlpha.binarySearch("fileAB"), 0);
 		assertEquals(DirectoryAlpha.binarySearch("fileC"), 3);
+		assertEquals(DirectoryAlpha.binarySearch("fileG"), 6);
 		assertEquals(DirectoryAlpha.binarySearch("fileI"), 8);
+	}
+	
+	@Test
+	public void binarySearchForAddition$findCorrectIndex()	{
+		assertEquals(DirectoryAlpha.binarySearchForAddition("file"),-1);
+		assertEquals(DirectoryAlpha.binarySearchForAddition("fileABBA"), 0);
+		assertEquals(DirectoryAlpha.binarySearchForAddition("fileE"),4);
+		assertEquals(DirectoryAlpha.binarySearchForAddition("fileIndia"),8);
+		assertEquals(DirectoryAlpha.binarySearchForAddition("fileJulliette"),9);
 	}
 }

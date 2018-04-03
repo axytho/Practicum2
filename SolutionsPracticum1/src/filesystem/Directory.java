@@ -167,13 +167,14 @@ public class Directory extends FileObject {
      * @param	fileName
      * 			The name of the file
      * 
-     * @return	The index of the file if it contains a file with fileName as name, else the index of the 
-     * 			the file name lexographically higher than this fileName, or, if the fileName is lexographically
-     * 			greater than all other file names, getNbItems()
+     * @return	The index of the file if it contains a file with fileName as name
      * 
+     * @throw	FileNotFoundException
+     * 			The file with the given fileName does appear in the fileList
+     * 			| for each file in fileList: file.getName() != fileName
      */
     
-    public int binarySearch(String fileName)	{
+    public int binarySearch(String fileName) throws FileNotFoundException	{
     	int left = 0;
     	int right = getNbItems() - 1;
     	int middle = 0;
@@ -190,11 +191,44 @@ public class Directory extends FileObject {
     			return middle;
     		}
     	}
-    	return middle;
+    	/* The method returns unsuccessfully if it is not found */
+    	throw new FileNotFoundException(fileName);	
+    
     }
     
-    
-    
+    /**
+     * Find the correct place to add a new file
+     * 
+     * @param	fileName
+     * 			The name of the file we're adding
+     * 
+     * @return	The index of the file that comes just before our given file, or -1 if our file must become
+     * 			the first file in the index
+     */
+    public int binarySearchForAddition(String fileName) {
+    	int left = 0;
+    	int right = getNbItems() - 1;
+    	int middle = 0;
+    	int direction = 0;
+    	while (right >= left)	{
+    		middle = (left + right)/2; /*because middle is an int, automatically computes the floor */
+    		direction = fileName.compareTo(objectName(middle)); /* direction is not necessarily equal to -1, 0 or 1 */
+    		if (direction > 0) {
+    			left = middle + 1;
+    		} else if (direction < 0) {
+    			right = middle - 1;
+    		}
+    		else {
+    			return middle;
+    		}
+    	}
+    	if (right<0)	{
+    		assert(right == -1);
+    		return right;
+    	}
+    	assert((fileName.compareTo(objectName(right)) > 0 ) && (fileName.compareTo(objectName(left)) < 0 ));
+    	return right;
+    }
     
     
     

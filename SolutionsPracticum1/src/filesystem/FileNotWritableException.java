@@ -4,7 +4,7 @@ import be.kuleuven.cs.som.annotate.*;
 /**
  * A class for signaling illegal attempts to change a file.
  * 
- * @author 	Tommy Messelis
+ * @author 	Frederik
  * @version	2.0 - 2015
  */
 public class FileNotWritableException extends RuntimeException {
