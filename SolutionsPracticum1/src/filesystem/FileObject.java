@@ -122,6 +122,7 @@ public abstract class FileObject {
     public void move(Directory dir) throws IllegalArgumentException	{
     	if (this.canMoveDirectoryTo(dir)) {
     		setDirectory(dir);
+    		dir.addToList(this);
     	} else if (dir != null) {
     		throw new IllegalArgumentException("Cannot move directory to here!");
     	}

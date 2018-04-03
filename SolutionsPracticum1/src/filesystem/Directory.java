@@ -214,23 +214,9 @@ public class Directory extends FileObject {
     }
     
     
-    /**
-     * Returns the number of items in the directory. 
-     * @return
-     */
-    public int getNbItems() {
-    		return fileList.size();
-    }
+
     
-    /**
-     * returns the index of a FileObject. 
-     * @param	FO
-     * 			The FiloObject 
-     * @return	The index of the Fo 
-     */
-    public int getIndexOf(FileObject FO) {
-    		return fileList.indexOf(FO); 
-    }
+
     
   
     /** 
@@ -256,17 +242,56 @@ public class Directory extends FileObject {
 	 * @post	The index must be valid.
 	 * 			|  index >= 0 && index <= fileList.size())
 	 * @return	the file or directory linked to the given index. 
+	 * 
+	 * @throws	IllegalArgumentException
+	 * 			The given index is out of range
+	 * 			| index < 0 || index >= fileList
 	 */
 	public FileObject getItemAt(int index) throws IllegalArgumentException {
 		index -= 1;
-		if (index >= 0 && index < fileList.size()) {
+		if (index >= 0 && index < getNbItems()) {
 			return fileList.get(index);
 		}else {
 			throw new IllegalArgumentException("Index out of range.");
 			}
 	}
-
+	/**
+	 * Return the item with the given name
+	 * @param	fileName
+	 * 			The name of the file we're looking for
+	 * @return	The item with the given name
+	 */
 	
+	public FileObject getItem(String fileName)	{
+		return getItemAt(binarySearch(fileName) + 1);
+	}
+	
+	/**
+	 * Check whether this directory or any of its subdirectories contains the given FileObject
+	 */
+	
+
+    /**
+     * returns the index of a FileObject. 
+     * @param	FO
+     * 			The FiloObject 
+     * @return	The index of the Fo as specified in practicum2 (starts at 1)
+     */
+    public int getIndexOf(FileObject FO) {
+    		return fileList.indexOf(FO) + 1; 
+    }
+	
+    /**
+     * Returns the number of items in the directory. 
+     * @return
+     */
+    public int getNbItems() {
+    		return fileList.size();
+    }
+    
+    /**
+     * Checks whether this directory, but not its subdirectories, contain the given FileObject
+     */
 	
 	
     /**

@@ -12,11 +12,11 @@ import be.kuleuven.cs.som.annotate.*;
  *          | isValidCreationTime(getCreationTime())
  * @invar   Each file must have a valid modification time.
  *          | canHaveAsModificationTime(getModificationTime())
- * @author  Mark Dreesen
- * @author  Tommy Messelis
+ * @author  Jonas Bertels
+ * @author	Frederik Van Eecke
  * @version 3.1
  * 
- * @note		See Coding Rule 48 for more info on the encapsulation of class invariants.
+ * @note		
  */
 public class File extends FileObject {
 	

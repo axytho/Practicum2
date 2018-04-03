@@ -86,9 +86,9 @@ public class TestFileSystem {
 
 	
 	
-	
+	@Test
 	public void testAddToList$checkOrder()	{
-		assertEquals(DirectoryAlpha.getItemAt(3).getName(),"fileC");
+		assertEquals(DirectoryAlpha.getItemAt(2).getName(),"fileC");
 	}
 	
 	@Test
