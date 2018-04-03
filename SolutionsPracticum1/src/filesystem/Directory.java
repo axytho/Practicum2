@@ -136,7 +136,7 @@ public class Directory extends FileObject {
     		
     		
     		
-    }
+    
     /** 
      * Perform a binary search on the arrayList
      * 
