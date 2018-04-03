@@ -5,17 +5,22 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 
+import ownings.Dog;
+
 
 public class TestFileSystem {
 	
 	private static File	fileAB, fileABC, fileB, fileC, fileD, fileF, fileG, fileH, fileI;
 	
+	private static Directory Dir_writable, Dir_notWritable, Dir_super, Dir_sub1, Dir_sub2;
+	
 	private Directory DirectoryAlpha;
 	
 	@Before
 	public void setUp()	{
-		String name = "DirectoryAlpha";
-		DirectoryAlpha = new Directory(name);
+		String NameA = "DirectoryAlpha";
+		
+		DirectoryAlpha = new Directory(NameA);
 		fileAB = new File(DirectoryAlpha,"fileAB", Type.TEXT);
 		fileABC = new File(DirectoryAlpha,"fileABC", Type.TEXT);
 		fileB = new File(DirectoryAlpha,"fileB", Type.TEXT);
@@ -26,7 +31,49 @@ public class TestFileSystem {
 		fileH = new File(DirectoryAlpha, "fileH", Type.TEXT);
 		fileI = new File(DirectoryAlpha, "fileI", Type.TEXT);
 		
+		String NameB = "DirectoryBeta";
+		String NameC = "DirectoryGamma";
+		String NameSuper = "DirectorySuper";
+		String NameDir_sub1 = "Dir_sub1";
+		String NameDir_sub2 = "Dir_sub2";
+		
+		Dir_writable = new Directory(NameB,true);
+		Dir_notWritable = new Directory(NameC,false);
+		Dir_super = new Directory(NameSuper);
+		Dir_sub1 = new Directory(Dir_super,NameDir_sub1,true);
+		Dir_sub2 = new Directory(Dir_super,NameDir_sub2);
+		
+		
+		
 	}
+	@Test 
+	public void DirectoryConstructor_LegalCase() {
+		assertEquals(Dir_writable.getName(),"DirectoryBeta");
+		assertEquals(Dir_writable.isWritable(), true);
+		assertEquals(Dir_sub1.getDirectory(),Dir_super);
+		assertEquals(Dir_sub2.getDirectory(),Dir_super); 
+	}
+	
+	
+	@Test 
+	public void Move$LegalCase() {
+		Dir_sub1.move(DirectoryAlpha);
+		assertEquals(Dir_sub1.getDirectory(), "DirectoryAlpha"); 
+	}
+	
+	@Test (expected = LoopException.class)
+	public void Move$IllegalCase() {
+		Dir_super.move(Dir_sub1);
+	}
+	
+	public void insert$legalCase() {
+		Dir_super.insert(fileAB);
+		
+		
+	}
+		
+
+	
 	
 	@Test
 	public void testAddToList$checkOrder()	{
