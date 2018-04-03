@@ -108,7 +108,7 @@ public class Directory extends FileObject {
     		if (FileObjectAlreadyInList(FileObject)) {
     			throw new AlreadyInListException(FileObject);
     		}else {
-    			fileList.add(getPlace(FileObject.getName()),FileObject);
+    			fileList.add(getPlace(FileObject.getName()) + 1,FileObject);
     			/* getPlace function makes sure the object is added at the right place */
     		}
     	
@@ -131,31 +131,7 @@ public class Directory extends FileObject {
     }
     
     
-    /**
-     * Determines the place where a new object should be added in the arraylist. 
-     * @param	name
-     * 
-     * @return	The index of the position where the new object should be added.
-     * 
-     * @throws	IllegalArgumentException	
-     * 			A new object with a name that is identical with the name of an object from the arraylist 
-     * 			cannot be aded. To determine if two names are the same we convert them both to lowercase. 
-     * 			| newName.compareTo(objectName(i).toLowerCase()) == 0
-     * 			
-     */
-    private int getPlace(String name) throws IllegalArgumentException{
-    		String newName = name.toLowerCase(); 
-    		int count = 0; 
-    		for (int i = 0; i < fileList.size(); i++) {
-    			count = count + 1;  /*  The way physicists handle these problems */ 
-    			if (newName.compareTo(objectName(i).toLowerCase()) == 0) {
-    				throw new IllegalArgumentException("Identical name");
-    			}
-    			if (newName.compareTo(objectName(i).toLowerCase()) < 0) {
-    				break;
-    			}
-    		}
-    		return count; 
+
   
     		
     		
@@ -181,7 +157,7 @@ public class Directory extends FileObject {
     	int direction = 0;
     	while (right >= left)	{
     		middle = (left + right)/2; /*because middle is an int, automatically computes the floor */
-    		direction = fileName.compareTo(objectName(middle)); /* direction is not necessarily equal to -1, 0 or 1 */
+    		direction = fileName.compareToIgnoreCase(objectName(middle)); /* direction is not necessarily equal to -1, 0 or 1 */
     		if (direction > 0) {
     			left = middle + 1;
     		} else if (direction < 0) {
@@ -204,15 +180,16 @@ public class Directory extends FileObject {
      * 
      * @return	The index of the file that comes just before our given file, or -1 if our file must become
      * 			the first file in the index
+     * @assert	That the 
      */
-    public int binarySearchForAddition(String fileName) {
+    public int getPlace(String fileName) {
     	int left = 0;
     	int right = getNbItems() - 1;
     	int middle = 0;
     	int direction = 0;
     	while (right >= left)	{
     		middle = (left + right)/2; /*because middle is an int, automatically computes the floor */
-    		direction = fileName.compareTo(objectName(middle)); /* direction is not necessarily equal to -1, 0 or 1 */
+    		direction = fileName.compareToIgnoreCase(objectName(middle)); /* direction is not necessarily equal to -1, 0 or 1 */
     		if (direction > 0) {
     			left = middle + 1;
     		} else if (direction < 0) {
@@ -222,8 +199,7 @@ public class Directory extends FileObject {
     			return middle;
     		}
     	}
-    	if (right<0)	{
-    		assert(right == -1);
+    	if (right<0 || left > 8)	{
     		return right;
     	}
     	assert((fileName.compareTo(objectName(right)) > 0 ) && (fileName.compareTo(objectName(left)) < 0 ));
