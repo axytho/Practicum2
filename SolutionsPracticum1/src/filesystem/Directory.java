@@ -130,37 +130,7 @@ public class Directory extends FileObject {
     		return fileList.get(i).getName(); 
     }
     
-    
-    /**
-     * Determines the place where a new object should be added in the arraylist. 
-     * @param	name
-     * 
-     * @return	The index of the position where the new object should be added.
-     * 
-     * @throws	IllegalArgumentException	
-     * 			A new object with a name that is identical with the name of an object from the arraylist 
-     * 			cannot be aded. To determine if two names are the same we convert them both to lowercase. 
-     * 			| newName.compareTo(objectName(i).toLowerCase()) == 0
-     * 			
-     */
-    private int getPlace(String name) throws IllegalArgumentException{
-    		String newName = name.toLowerCase(); 
-    		int count = 0; 
-    		for (int i = 0; i < fileList.size(); i++) {
-    			count = count + 1; 
-    			if (newName.compareTo(objectName(i).toLowerCase()) == 0) {
-    				throw new IllegalArgumentException("Identical name");
-    			}
-    			if (newName.compareTo(objectName(i).toLowerCase()) < 0) {
-    				break;
-    			}
-    		}
-    		return count; 
-  
-    		
-    		
-    		
-    }
+ 
     /** 
      * Perform a binary search on the arrayList
      * 
@@ -205,7 +175,7 @@ public class Directory extends FileObject {
      * @return	The index of the file that comes just before our given file, or -1 if our file must become
      * 			the first file in the index
      */
-    public int binarySearchForAddition(String fileName) {
+    public int getPlace(String fileName) {
     	int left = 0;
     	int right = getNbItems() - 1;
     	int middle = 0;
@@ -222,8 +192,7 @@ public class Directory extends FileObject {
     			return middle;
     		}
     	}
-    	if (right<0)	{
-    		assert(right == -1);
+    	if (right<0 || left > getNbItems())	{
     		return right;
     	}
     	assert((fileName.compareTo(objectName(right)) > 0 ) && (fileName.compareTo(objectName(left)) < 0 ));
