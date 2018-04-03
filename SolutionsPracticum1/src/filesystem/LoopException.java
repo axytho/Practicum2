@@ -10,7 +10,7 @@ import be.kuleuven.cs.som.annotate.Raw;
  * @version	2.0 - 2015
  */
 
-public class LoopException{
+public class LoopException extends RuntimeException{
 	/**
 	 * Required because this class inherits from Exception
 	 */
