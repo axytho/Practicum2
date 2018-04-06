@@ -128,6 +128,8 @@ public abstract class FileObject {
     	}
     }
     
+
+    
     /**
      * Checks wether the file object can be moved to the directory
      * @param	dir
@@ -149,7 +151,7 @@ public abstract class FileObject {
      */
     
     @Basic @Immutable
-    public static Directory getRoot() {
+    public static Directory getRootFolder() {
     	return root;
     }
     
@@ -160,9 +162,23 @@ public abstract class FileObject {
      * 			| setDirectory(Directory.getRoot())
      */
     public void makeRoot() {
-    	setDirectory(Directory.getRoot());
+    	move(getRootFolder());
     }
     
+    /**
+     * Find the rootFolder or rootFile
+     * 
+     * @return	The directory of which this directory is a subdirectory and which has the root directory
+     * 			as superdirectory
+     * 			| result.getDirectory() == root && this.isDirectOrIndirectSubdirectoryOf(result)
+     */
+    
+    public FileObject getRoot()	{
+    	if (this.getDirectory() == getRootFolder())	{
+    		return this;
+    	}
+    	return this.getDirectory().getRoot();
+    }
 
     /**********************************************************
      * deletion - defensive programming
@@ -174,6 +190,25 @@ public abstract class FileObject {
 
     
     abstract boolean canBeDeleted();
+    
+    /**
+     * Delete the FileObject
+     * 
+     * @post	dir is set to null
+     * 			| getDirectory() == null
+     * @effect	getDirectory().removeObject(this)
+     * 
+     * @throws	IllegalDeletionException
+     * 			
+     */
+    public void delete() throws IllegalDeletionException {
+    	if (canBeDeleted())	{
+    		getDirectory().removeObject(this);
+    		setDirectory(null);
+    	} else {
+    		throw new IllegalDeletionException();
+    	}
+    }
     
     
     /**********************************************************
@@ -478,7 +513,7 @@ public abstract class FileObject {
      *         |                    (new System).currentTimeMillis())
      */
     @Model 
-    private void setModificationTime() {
+    protected void setModificationTime() {
         modificationTime = new Date();
     }
 
