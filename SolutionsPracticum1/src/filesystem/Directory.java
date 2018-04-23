@@ -31,7 +31,7 @@ public class Directory extends FileObject {
      * 			| this(getRoot(), name, writable);
 	 */
 	public Directory(String name,boolean writable) {
-		this(getRoot(), name, writable);
+		this(getRootFolder(), name, writable);
 	}
 	
 	
@@ -43,7 +43,7 @@ public class Directory extends FileObject {
      * 			| this(getRoot(), name, writable);
 	 */
 	public Directory(String name) {		
-		this(getRoot(), name, true);
+		this(getRootFolder(), name, true);
 		
 	}
 	/**
@@ -61,7 +61,10 @@ public class Directory extends FileObject {
 	 */
 	public Directory(Directory dir ,String name, boolean writable) {
 		super(name, 0, writable);
-		move(dir);
+        if (dir != null) {
+        	setDirectory(dir);
+			dir.addToList(this);
+        }
 	}
 	
 	
@@ -92,6 +95,13 @@ public class Directory extends FileObject {
      */
     ArrayList<FileObject> fileList = new ArrayList<FileObject>();
     
+    /**
+     * Return the fileList of this object
+     */
+    public ArrayList<FileObject> getFileList()	{
+    	return this.fileList;
+    }
+    
     
     /**
      * Add a FileObject to the arraylist. when the FileObject already exists in the arraylist an exception is thrown. 
@@ -105,19 +115,17 @@ public class Directory extends FileObject {
      * 			
      */
     public void addToList(FileObject FileObject) throws AlreadyInListException {
-    		if (FileObjectAlreadyInList(FileObject)) {
+		setModificationTime();
+    		if (hasAsItem(FileObject)) {
     			throw new AlreadyInListException(FileObject);
     		}else {
-    			fileList.add(getPlace(FileObject.getName()) + 1,FileObject);
+    			getFileList().add(getPlace(FileObject.getName()) + 1,FileObject);
     			/* getPlace function makes sure the object is added at the right place */
     		}
     	
     }
     
-    /* TODO: Delete this function!!!!!!!!!! AND CHANGE THE REFERENCE BACK TO addList */
-    public void testAddToList(FileObject FileObject)	{
-    	fileList.add(FileObject);
-    }
+
     
     
     /**
@@ -127,44 +135,10 @@ public class Directory extends FileObject {
      * @return	The name of the object at index i.			
      */
     private String objectName(int i) {
-    		return fileList.get(i).getName(); 
+    		return getFileList().get(i).getName(); 
     }
     
-    
-<<<<<<< HEAD
-    /**
-     * Determines the place where a new object should be added in the arraylist. 
-     * @param	name
-     * 
-     * @return	The index of the position where the new object should be added.
-     * 
-     * @throws	IllegalArgumentException	
-     * 			A new object with a name that is identical with the name of an object from the arraylist 
-     * 			cannot be aded. To determine if two names are the same we convert them both to lowercase. 
-     * 			| newName.compareTo(objectName(i).toLowerCase()) == 0
-     * 			
-     */
-    private int getPlace(String name) throws IllegalArgumentException{
-    		String newName = name.toLowerCase(); 
-    		int count = 0; 
-    		for (int i = 0; i < fileList.size(); i++) {
-    			count = count + 1; 
-    			if (newName.compareTo(objectName(i).toLowerCase()) == 0) {
-    				throw new IllegalArgumentException("Identical name");
-    			}
-    			if (newName.compareTo(objectName(i).toLowerCase()) < 0) {
-    				break;
-    			}
-    		}
-    		return count; 
-=======
-
->>>>>>> 0b98ae4074bfc9e03da93b1ad3eeaa2602b80519
-  
-    		
-    		
-    		
-    
+ 
     /** 
      * Perform a binary search on the arrayList
      * 
@@ -172,20 +146,21 @@ public class Directory extends FileObject {
      * 			The name of the file
      * 
      * @return	The index of the file if it contains a file with fileName as name
+     * 			(indexed according to Java, NOT according to practicum2)
      * 
      * @throw	FileNotFoundException
      * 			The file with the given fileName does appear in the fileList
-     * 			| for each file in fileList: file.getName() != fileName
+     * 			| for each file in getFileList(): file.getName() != fileName
      */
     
-    public int binarySearch(String fileName) throws FileNotFoundException	{
+    protected int binarySearch(String fileName) throws FileNotFoundException	{
     	int left = 0;
     	int right = getNbItems() - 1;
     	int middle = 0;
     	int direction = 0;
     	while (right >= left)	{
     		middle = (left + right)/2; /*because middle is an int, automatically computes the floor */
-    		direction = fileName.compareToIgnoreCase(objectName(middle)); /* direction is not necessarily equal to -1, 0 or 1 */
+    		direction = fileName.compareTo(objectName(middle)); /* direction is not necessarily equal to -1, 0 or 1 */
     		if (direction > 0) {
     			left = middle + 1;
     		} else if (direction < 0) {
@@ -208,32 +183,31 @@ public class Directory extends FileObject {
      * 
      * @return	The index of the file that comes just before our given file, or -1 if our file must become
      * 			the first file in the index
-     * @assert	That the 
+     * 			(Indexed according to java)
      */
-    public int getPlace(String fileName) {
+    protected int getPlace(String fileName) throws AlreadyInListException {
     	int left = 0;
     	int right = getNbItems() - 1;
     	int middle = 0;
     	int direction = 0;
     	while (right >= left)	{
     		middle = (left + right)/2; /*because middle is an int, automatically computes the floor */
-    		direction = fileName.compareToIgnoreCase(objectName(middle)); /* direction is not necessarily equal to -1, 0 or 1 */
+    		direction = fileName.compareTo(objectName(middle)); /* direction is not necessarily equal to -1, 0 or 1 */
     		if (direction > 0) {
     			left = middle + 1;
     		} else if (direction < 0) {
     			right = middle - 1;
     		}
     		else {
-    			return middle;
+    			throw new AlreadyInListException(getItemAt(middle + 1));
     		}
     	}
-    	if (right<0 || left > 8)	{
+    	if (right<0 || left >= getNbItems())	{
     		return right;
     	}
     	assert((fileName.compareTo(objectName(right)) > 0 ) && (fileName.compareTo(objectName(left)) < 0 ));
     	return right;
     }
-    
     
     
     
@@ -251,36 +225,12 @@ public class Directory extends FileObject {
     }
     
     
-    /**
-     * Returns the number of items in the directory. 
-     * @return
-     */
-    public int getNbItems() {
-    		return fileList.size();
-    }
+
     
-    /**
-     * returns the index of a FileObject. 
-     * @param	FO
-     * 			The FiloObject 
-     * @return	The index of the Fo 
-     */
-    public int getIndexOf(FileObject FO) {
-    		return fileList.indexOf(FO); 
-    }
+
     
   
-    /** 
-     * checks if a FileObject already exist in the arraylist. 
-     * @param 	FileObject
-     * 			A File or Directory that is searched for in the arraylist.
-     * 
-     * @return	true when the FileObject is in the arraylist, false otherwise. 
-     * 			| arraylist.contains(FileObject)
-     */
-    public boolean FileObjectAlreadyInList(FileObject FileObject) { /* Gebruik has as item! */
-    		return fileList.contains(FileObject);
-    }
+
     
     
 
@@ -289,20 +239,101 @@ public class Directory extends FileObject {
 	/**
 	 * Returns the FileObject linked to a given index. 
 	 * @param	index
-	 * 			The index number. 
-	 * @post		The index must be valid.
-	 * 			|  index >= 0 && index <= fileList.size())
-	 * @return	he file or directory linked to the given index. 
+	 * 			The index number according to practicum2. 
+	 * @post	The index must be valid.
+	 * 			|  index >= 0 && index <= getFileList().size())
+	 * @return	the file or directory linked to the given index. 
+	 * 			
+	 * @throws	IllegalArgumentException
+	 * 			The given index is out of range
+	 * 			| index < 0 || index >= getFileList()
 	 */
 	public FileObject getItemAt(int index) throws IllegalArgumentException {
-		if (index >= 0 && index <= fileList.size()) {
-			return fileList.get(index);
+		index -= 1;
+		if (index >= 0 && index < getNbItems()) {
+			return getFileList().get(index);
 		}else {
 			throw new IllegalArgumentException("Index out of range.");
 			}
 	}
+	/**
+	 * Return the item with the given name
+	 * @param	fileName
+	 * 			The name of the file we're looking for
+	 * @return	The item with the given name
+	 * 			| result.getName() == fileName
+	 */
 	
+	public FileObject getItem(String fileName)	{
+		return getItemAt(binarySearch(fileName) + 1);
+	}
 	
+	/**
+	 * Check whether this directory or any of its subdirectories contains the given FileObject
+	 * 
+	 * @return	True if the superdirectory of this file or directory is an (in)direct subdirectory of 
+	 * 			this directory
+	 * 			| this.isDirectOrIndirectSubdirectoryOf(fileObj.getDirectory())
+	 */
+	
+	public boolean exists(FileObject fileObj)	{
+		return this.isDirectOrIndirectSubdirectoryOf(fileObj.getDirectory());
+		
+	}
+	
+
+    /**
+     * returns the index of a FileObject. 
+     * @param	FO
+     * 			The FiloObject 
+     * @return	The index of the Fo as specified in practicum2 (starts at 1)
+     */
+    public int getIndexOf(FileObject FO) {
+    		return getFileList().indexOf(FO) + 1; 
+    }
+	
+    /**
+     * Returns the number of items in the directory. 
+     * @return	the size of our file list
+     * 			| getFileList().size()
+     */
+    public int getNbItems() {
+    		return getFileList().size();
+    }
+    
+    /** 
+     * checks if a FileObject already exist in the arraylist. 
+     * @param 	FileObject
+     * 			A File or Directory that is searched for in the arraylist.
+     * 
+     * @return	true when the FileObject is in the arraylist, false otherwise. 
+     * 			| arraylist.contains(FileObject)
+     */
+    public boolean hasAsItem(FileObject FileObject) { /* Gebruik has as item! */
+    		return getFileList().contains(FileObject);
+    }
+    
+    /**
+     * Checks if a given directory is a subdirectory or indirect subdirectory of this subdirectory
+     * 
+     * @param	dir
+     * 			The given directory
+     * @return	True if no directory contains a directory equal to the directory
+     * 			
+     */
+	public boolean isDirectOrIndirectSubdirectoryOf(Directory dir) {
+		if (dir.isEmpty())	{
+			return false;
+		}
+		for (FileObject fileObject : dir.getFileList())	{
+			if (fileObject instanceof Directory)	{
+				if (fileObject == this || isDirectOrIndirectSubdirectoryOf((Directory) fileObject))	{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
     /**
      * Checks whether this directory can be moved to the given directory
@@ -311,12 +342,22 @@ public class Directory extends FileObject {
      * 			the directory to where we are moving
      * @return	True if the directory does not contain itself
      * 			| (!dir.exists(dir))
+     * @throws	LoopException
+     * 			Moving the directory results in a loop, in other words, dir is a subdirectory of this
+     * 			| !(dir.isDirectOrIndirectSubdirectoryOf())
      */
 	
-	public boolean canMoveDirectoryTo(Directory dir)	{
-		/* change to exists */
-		// return this.exists(dir);
-		return dir != null;
+	public boolean canMoveDirectoryTo(Directory dir) throws LoopException	{
+		if (dir == null)	{
+			return false;
+		}
+		if (dir.isDirectOrIndirectSubdirectoryOf(this))	{
+			throw new LoopException(dir);
+		}
+		if (!this.isWritable())	{
+			return false;
+		}
+		return true;
 	}
 	
     /**********************************************************
@@ -332,6 +373,9 @@ public class Directory extends FileObject {
 	 */
 	
 	public boolean canBeDeleted()	{
+		if (!this.isWritable())	{
+			return false;
+		}
 		return this.isEmpty();
 	}
 	
@@ -341,7 +385,34 @@ public class Directory extends FileObject {
 	 * 			| fileList.isEmpty()
 	 */
 	public boolean isEmpty() {
-		return fileList.isEmpty();
+		return getFileList().isEmpty();
+	}
+	
+	/**
+	 * Remove the given FileObject from this directory (this does not change the dir set
+	 * for this fileObject)
+	 * 
+	 * @param	FileObject
+	 * 			The FileObject to be removed
+	 * @post	The FileObject is no longer in this directory
+	 * 			| !(hasAsItem(FileObject)
+	 */
+	public void removeObject(FileObject fileObj)	{
+		setModificationTime();
+		getFileList().remove(fileObj);
+	}
+	
+	/**
+	 * Remove all objects (the right way would probably involve fileObject.remove(), but java yells at me
+	 * if I change the list while iterating over it by throwing ConcurrentModificationException)
+	 * 
+	 * 
+	 * @post	This directory is empty
+	 * 			| new.isEmpty()
+	 */
+	public void removeAllObjects()	{
+		setModificationTime();
+		getFileList().clear();
 	}
 	
 	
@@ -355,7 +426,8 @@ public class Directory extends FileObject {
 
 	public static boolean isValidDirectory(Directory directory) {
 		return true;
-		/* TODO: Change this! */
+		
 	}
+	
 
 }
