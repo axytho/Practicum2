@@ -12,11 +12,11 @@ import be.kuleuven.cs.som.annotate.*;
  *          | isValidCreationTime(getCreationTime())
  * @invar   Each file must have a valid modification time.
  *          | canHaveAsModificationTime(getModificationTime())
- * @author  Jonas Bertels
- * @author	Frederik Van Eecke
+ * @author  Mark Dreesen
+ * @author  Tommy Messelis
  * @version 3.1
  * 
- * @note		
+ * @note		See Coding Rule 48 for more info on the encapsulation of class invariants.
  */
 public class File extends FileObject {
 	
@@ -43,7 +43,7 @@ public class File extends FileObject {
      */
 	
 	public File(String name, int size, boolean writable, Type type) {
-		this(getRootFolder(), name, size, writable, type);
+		this(getRoot(), name, size, writable, type);
 		
 	}
 	
@@ -58,7 +58,7 @@ public class File extends FileObject {
 	 * 			| this(name, 0, true, type)
 	 */
 	public File(String name, Type type) {
-		this(getRootFolder(), name, 0, true, type);
+		this(getRoot(), name, 0, true, type);
 	}
 	
 	/**
@@ -82,10 +82,7 @@ public class File extends FileObject {
 	public File(Directory dir, String name, int size, boolean writable, Type type) {
 		super(name, size, writable);
         setType(type);
-        if (dir != null) {
-        	setDirectory(dir);
-			dir.addToList(this);
-        }
+        move(dir);
     }
 	/**
 	 * Initializes a new file with a given directory, name and type which is writable and empty.
@@ -116,11 +113,8 @@ public class File extends FileObject {
 	 * 			The directory we're checking
 	 * @return	True
 	 */
-
+    /* TODO:abstract or static? */	
 	public boolean canBeDeleted()	{
-		if (!this.isWritable())	{
-			return false;
-		}
 		return true;
 	}
     
@@ -187,12 +181,6 @@ public class File extends FileObject {
     
     
 	public boolean canMoveDirectoryTo(Directory dir)	{
-		if (dir == null) {
-			return false;
-		}
-		if (!this.isWritable())	{
-			return false;
-		}
 		return true;
 	}
 

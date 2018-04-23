@@ -122,13 +122,13 @@ public abstract class FileObject {
     public void move(Directory dir) throws IllegalArgumentException	{
     	if (this.canMoveDirectoryTo(dir)) {
     		setDirectory(dir);
-    		dir.addToList(this);
+    		/* TODO: CHANGE THIS BACK TO addToList!!!!!!!!!!!!!!*/
+    		dir.testAddToList(this);
+    		/* and update the previous master directory */
     	} else if (dir != null) {
     		throw new IllegalArgumentException("Cannot move directory to here!");
     	}
     }
-    
-
     
     /**
      * Checks wether the file object can be moved to the directory
@@ -151,7 +151,7 @@ public abstract class FileObject {
      */
     
     @Basic @Immutable
-    public static Directory getRootFolder() {
+    public static Directory getRoot() {
     	return root;
     }
     
@@ -162,23 +162,9 @@ public abstract class FileObject {
      * 			| setDirectory(Directory.getRoot())
      */
     public void makeRoot() {
-    	move(getRootFolder());
+    	setDirectory(Directory.getRoot());
     }
     
-    /**
-     * Find the rootFolder or rootFile
-     * 
-     * @return	The directory of which this directory is a subdirectory and which has the root directory
-     * 			as superdirectory
-     * 			| result.getDirectory() == root && this.isDirectOrIndirectSubdirectoryOf(result)
-     */
-    
-    public FileObject getRoot()	{
-    	if (this.getDirectory() == getRootFolder())	{
-    		return this;
-    	}
-    	return this.getDirectory().getRoot();
-    }
 
     /**********************************************************
      * deletion - defensive programming
@@ -190,25 +176,6 @@ public abstract class FileObject {
 
     
     abstract boolean canBeDeleted();
-    
-    /**
-     * Delete the FileObject
-     * 
-     * @post	dir is set to null
-     * 			| getDirectory() == null
-     * @effect	getDirectory().removeObject(this)
-     * 
-     * @throws	IllegalDeletionException
-     * 			
-     */
-    public void delete() throws IllegalDeletionException {
-    	if (canBeDeleted())	{
-    		getDirectory().removeObject(this);
-    		setDirectory(null);
-    	} else {
-    		throw new IllegalDeletionException();
-    	}
-    }
     
     
     /**********************************************************
@@ -513,7 +480,7 @@ public abstract class FileObject {
      *         |                    (new System).currentTimeMillis())
      */
     @Model 
-    protected void setModificationTime() {
+    private void setModificationTime() {
         modificationTime = new Date();
     }
 
