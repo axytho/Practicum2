@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 
-import ownings.Dog;
 
 
 public class TestFileSystem {
@@ -98,15 +97,17 @@ public class TestFileSystem {
 		assertEquals(DirectoryAlpha.binarySearch("fileC"), 3);
 		assertEquals(DirectoryAlpha.binarySearch("fileG"), 6);
 		assertEquals(DirectoryAlpha.binarySearch("fileI"), 8);
+		assertEquals(DirectoryAlpha.binarySearch("filei"), 8);
+		
 	}
 	
 	@Test
 	public void binarySearchForAddition$findCorrectIndex()	{
-		assertEquals(DirectoryAlpha.binarySearchForAddition("file"),-1);
-		assertEquals(DirectoryAlpha.binarySearchForAddition("fileABBA"), 0);
-		assertEquals(DirectoryAlpha.binarySearchForAddition("fileE"),4);
-		assertEquals(DirectoryAlpha.binarySearchForAddition("fileIndia"),8);
-		assertEquals(DirectoryAlpha.binarySearchForAddition("fileJulliette"),9);
+		assertEquals(DirectoryAlpha.getPlace("file"),-1);
+		assertEquals(DirectoryAlpha.getPlace("fileABBA"), 0);
+		assertEquals(DirectoryAlpha.getPlace("fileE"),4);
+		assertEquals(DirectoryAlpha.getPlace("fileHotel"),7);
+		assertEquals(DirectoryAlpha.getPlace("fileJulliette"),8);
 	}
 	
 	
