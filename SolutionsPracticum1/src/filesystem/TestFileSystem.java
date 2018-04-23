@@ -1,6 +1,8 @@
 package filesystem;
 
 import static org.junit.Assert.*;
+
+
 import org.junit.*;
 
 
@@ -11,24 +13,22 @@ public class TestFileSystem {
 	
 	private static Directory Dir_writable, Dir_notWritable, Dir_super, Dir_sub1, Dir_sub2;
 	
-	private static Directory DirectoryAlpha;
+	private Directory DirectoryAlpha;
 	
 	@Before
 	public void setUp()	{
 		String NameA = "DirectoryAlpha";
 		
 		DirectoryAlpha = new Directory(NameA);
-		
 		fileAB = new File(DirectoryAlpha,"fileAB", Type.TEXT);
 		fileABC = new File(DirectoryAlpha,"fileABC", Type.TEXT);
 		fileB = new File(DirectoryAlpha,"fileB", Type.TEXT);
-		fileI = new File(DirectoryAlpha, "fileI", Type.TEXT);
 		fileC = new File(DirectoryAlpha,"fileC", Type.TEXT);
 		fileD = new File(DirectoryAlpha,"fileD", Type.TEXT);
 		fileF = new File(DirectoryAlpha,"fileF", Type.TEXT);
 		fileG = new File(DirectoryAlpha,"fileG", Type.TEXT);
 		fileH = new File(DirectoryAlpha, "fileH", Type.TEXT);
-		
+		fileI = new File(DirectoryAlpha, "fileI", Type.TEXT);
 		
 		String NameB = "DirectoryBeta";
 		String NameC = "DirectoryGamma";
@@ -41,31 +41,10 @@ public class TestFileSystem {
 		Dir_super = new Directory(NameSuper);
 		Dir_sub1 = new Directory(Dir_super,NameDir_sub1,true);
 		Dir_sub2 = new Directory(Dir_super,NameDir_sub2);
-	}
-	
-	@After
-	public void tearDown() {
-		Dir_sub2.removeAllObjects();
-		Dir_sub2.delete();
-		Dir_sub1.removeAllObjects();
-		Dir_sub1.delete();
-		Dir_super.removeAllObjects();
-		Dir_super.delete();
-		DirectoryAlpha.removeAllObjects();
-		DirectoryAlpha.delete();
-		Dir_writable.removeAllObjects();
-		Dir_writable.delete();
-		Dir_notWritable.setWritable(true);
-		Dir_notWritable.removeAllObjects();
-		Dir_notWritable.delete();
 		
 		
 		
 	}
-		
-		
-		
-	
 	@Test 
 	public void DirectoryConstructor_LegalCase() {
 		assertEquals(Dir_writable.getName(),"DirectoryBeta");
@@ -78,19 +57,13 @@ public class TestFileSystem {
 	@Test 
 	public void Move$LegalCase() {
 		Dir_sub1.move(DirectoryAlpha);
-		assertEquals(Dir_sub1.getDirectory(), DirectoryAlpha); 
+		assertEquals(Dir_sub1.getDirectory(), "DirectoryAlpha"); 
 	}
 	
 	@Test (expected = LoopException.class)
 	public void Move$IllegalCase() {
 		Dir_super.move(Dir_sub1);
 	}
-	
-	@Test (expected = LoopException.class)
-	public void Move$IllegalCase2() {
-		Dir_super.move(Dir_sub2);
-	}
-	
 	
 	@Test
 	public void insert$legalCase() {
@@ -110,17 +83,12 @@ public class TestFileSystem {
 		assertEquals(Dir_sub2.getNbItems(),0);
 	}
 	
-	@Test
-	public void getRoot$check()	{
-		assertEquals(Dir_sub2.getRoot(), Dir_super);
-	}
-	
 
 	
 	
-	@Test
+	
 	public void testAddToList$checkOrder()	{
-		assertEquals(DirectoryAlpha.getItemAt(4).getName(),"fileC");
+		assertEquals(DirectoryAlpha.getItemAt(3).getName(),"fileC");
 	}
 	
 	@Test
@@ -129,6 +97,8 @@ public class TestFileSystem {
 		assertEquals(DirectoryAlpha.binarySearch("fileC"), 3);
 		assertEquals(DirectoryAlpha.binarySearch("fileG"), 6);
 		assertEquals(DirectoryAlpha.binarySearch("fileI"), 8);
+		assertEquals(DirectoryAlpha.binarySearch("filei"), 8);
+		
 	}
 	
 	@Test
